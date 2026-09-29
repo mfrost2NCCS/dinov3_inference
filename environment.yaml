@@ -1,0 +1,44 @@
+# Conda environment for running test_inference.ipynb (DINOv3 CHM inference with the
+# fine-tuned checkpoint, best_dinov3_fulldataset_customloss.pth) on Planet imagery.
+#
+# Versions captured from the working ilab "PyTorch (RAPIDS/cudf.pandas, personal)"
+# kernel on ADAPT (as of 2026-09-28). GDAL/rasterio and the rest of the scientific
+# stack come from conda-forge; torch/torchvision come from PyPI's CUDA 12.1 wheels,
+# since that's the combination actually working in the source environment (its
+# conda-forge pytorch build has a broken/conflicting MKL runtime -- don't install
+# pytorch from conda-forge/pytorch channels here, install it via pip as below).
+#
+# Requires an NVIDIA driver compatible with CUDA 12.1+ for GPU inference.
+#
+# Create with:
+#   conda env create -f environment.yaml
+#   conda activate dino-chm-inference
+#
+# Before running the notebook you also need:
+#   1. A (free) Hugging Face account with access granted to the gated
+#      facebook/dinov3-vitl16-pretrain-sat493m repo -- request access on that
+#      model's page while logged in.
+#   2. To authenticate this environment with that account:
+#        python -c "from huggingface_hub import login; login()"
+#      (paste your HF token when prompted; input is hidden). This only needs to
+#      be done once per machine/home directory.
+
+name: dino-chm-inference
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - numpy=2.0.2
+  - pillow=11.3.0
+  - matplotlib=3.10.3
+  - tqdm=4.67.1
+  - gdal=3.10.3
+  - rasterio=1.4.3
+  - pip
+  - pip:
+      - --extra-index-url https://download.pytorch.org/whl/cu121
+      - torch==2.5.1
+      - torchvision==0.19.0
+      - transformers==5.5.0
+      - huggingface_hub==1.10.0
+      - tiler==0.6.0

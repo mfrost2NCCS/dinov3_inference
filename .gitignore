@@ -1,0 +1,15 @@
+# Large/derived artifacts -- transferred or generated separately, see README.md
+checkpoint/*
+!checkpoint/.gitkeep
+data/*
+!data/.gitkeep
+output/
+numpy_stats/*.npy
+
+# Jupyter / Python
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
